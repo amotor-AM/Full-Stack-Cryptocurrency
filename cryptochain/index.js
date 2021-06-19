@@ -10,7 +10,7 @@ const app = express();
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
-const pubsub = new PubSub({blockchain, transactionPool});
+const pubsub = new PubSub({blockchain, transactionPool, wallet});
 
 const DEFAULT_PORT = 3000;
 

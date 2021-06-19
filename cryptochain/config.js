@@ -10,11 +10,9 @@ const GENESIS_DATA = {
     data: []
 };
 
-const STARTING_BALANCE = 10;
+const STARTING_BALANCE = 100;
 
-const REWARD_INPUT = {
-    address: "miner-reward"
-};
+const REWARD_INPUT = {address: "miner-reward ⛏️"};
 
 const MINING_REWARD = 50;
 
