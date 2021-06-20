@@ -58,49 +58,49 @@ class Blockchain {
         return true;
     }
 
-    validTransactionData({chain}) {
-        for(let i = 1; i < chain.length; i++) {
-            const block = chain[i];
-            const transactionSet = new Set();
-            let numberOfRewardTransactions = 0;
-
-            for(let transaction of block.data) {
-                if(transaction.input.address === REWARD_INPUT.address) {
-                    numberOfRewardTransactions += 1;
-
-                    if(numberOfRewardTransactions > 1) {
-                        console.error("Miner Reward applied more than once");
-                        return false;
-                    };
-
-                    if(Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
-                        console.error("Miner Reward does not match preset value");
-                        return false;
-                    };
-                } else {
-                    if(!Transaction.validTransaction(transaction)) {
-                        console.error("Invalid Transaction");
-                        return false;
-                    };
-
-                    const correctBalance = Wallet.calculateBalance({
-                        chain: this.chain, // Have to call original this.chain NOT pass the chain object we need to validate
-                        address: transaction.input.address
-                    });
-                    if(transaction.input.amount !== correctBalance) {
-                        console.error("Wallet balance is not correct");
-                        return false;
-                    };
-
-                    if(transactionSet.has(transaction)) {
-                        console.error("Identical transaction detected");
-                        return false;
-                    } else {
-                        transactionSet.add(transaction);
-                    };
-                };
+    validTransactionData({ chain }) {
+        for (let i=1; i<chain.length; i++) {
+          const block = chain[i];
+          const transactionSet = new Set();
+          let rewardTransactionCount = 0;
+    
+          for (let transaction of block.data) {
+            if (transaction.input.address === REWARD_INPUT.address) {
+              rewardTransactionCount += 1;
+    
+              if (rewardTransactionCount > 1) {
+                console.error('Miner rewards exceed limit');
+                return false;
+              };
+    
+              if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
+                console.error('Miner reward amount is invalid');
+                return false;
+              };
+            } else {
+              if (!Transaction.validTransaction(transaction)) {
+                console.error('Invalid transaction');
+                return false;
+              };
+    
+              const trueBalance = Wallet.calculateBalance({
+                chain: this.chain, // HAVE to call this.chain to compare origninal chain against the one we need to verify
+                address: transaction.input.address
+              });
+    
+              if (transaction.input.amount !== trueBalance) {
+                console.error('Invalid input amount');
+                return false;
+              };
+    
+              if (transactionSet.has(transaction)) {
+                console.error('An identical transaction appears more than once in the block');
+                return false;
+              } else {
+                transactionSet.add(transaction);
+              };
             };
-
+          };
         };
 
         return true;

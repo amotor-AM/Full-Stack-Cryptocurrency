@@ -42,13 +42,13 @@ class Transaction {
 
         this.outputMap[senderWallet.publicKey] -= amount;
 
-        this.input = this.createInput({senderWallet, outputMap: this.outputMap}); //re-signs the same hash value :(
+        this.input = this.createInput({senderWallet, outputMap: this.outputMap}); 
     };
 
     static validTransaction(transaction) {
         const {input: {address, amount, signature}, outputMap} = transaction;
 
-        const totalOutput = Object.values(outputMap).reduce((total, outputAmount) => total + outputAmount);
+        const totalOutput = Object.values(outputMap).reduce((total, amountSent) => total + amountSent);
         if(amount !== totalOutput) {
             console.error(`Invalid transaction submitted from the following address: ${address}`);
             return false;

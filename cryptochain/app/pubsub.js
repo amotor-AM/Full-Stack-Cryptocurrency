@@ -4,7 +4,7 @@ const credentials = {
     publishKey: "pub-c-752af9f5-115f-4b67-8d08-754eff87e41f",
     subscribeKey: "sub-c-5ae4fd3e-5f47-11eb-b440-627658c4805c",
     secretKey: "sec-c-MDQ5YjBmNGQtZGE3NC00MzgyLWJlYjctNjVhNWE4NmI2OTVm",
-    logVerbosity: true
+    logVerbosity: false
 };
 
 const CHANNELS = {
