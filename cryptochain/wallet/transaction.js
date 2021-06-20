@@ -49,16 +49,18 @@ class Transaction {
         const {input: {address, amount, signature}, outputMap} = transaction;
 
         const totalOutput = Object.values(outputMap).reduce((total, outputAmount) => total + outputAmount);
-
-        if(amount !== totalOutput || !verifySignature({publicKey: address, data: outputMap, signature})) {
-            !verifySignature 
-            ? console.error(`Invalid signiture from wallet ${address}`)
-            : console.error(`Invalid transaction from wallet ${address}`);
-           return false; 
+        if(amount !== totalOutput) {
+            console.error(`Invalid transaction submitted from the following address: ${address}`);
+            return false;
         };
 
+        if(!verifySignature({ publicKey: address, data: outputMap, signature })) {
+            console.error(`Invalid signature submitted from the following address: ${address}`);
+            return false;
+          };
+
         return true;
-    }
+    };
 
     static rewardTransaction({ minerWallet }) {
         return new this({
