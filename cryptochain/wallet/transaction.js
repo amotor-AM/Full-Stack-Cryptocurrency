@@ -8,7 +8,7 @@ class Transaction {
         this.id = uuid();
         this.outputMap = outputMap || this.createOutputMap({senderWallet, recipient, amount});
         this.input = input || this.createInput({senderWallet, outputMap: this.outputMap});
-    }
+    };
 
     createOutputMap({senderWallet, recipient, amount}) {
         const outputMap = {};
@@ -17,7 +17,7 @@ class Transaction {
         outputMap[senderWallet.publicKey] = senderWallet.balance - amount;
         
         return outputMap;
-    }
+    };
 
     createInput({senderWallet, outputMap}) {
         return {
@@ -38,7 +38,7 @@ class Transaction {
             this.outputMap[recipient] = amount;
         } else {
             this.outputMap[recipient] = this.outputMap[recipient] + amount;
-        }
+        };
 
         this.outputMap[senderWallet.publicKey] -= amount;
 

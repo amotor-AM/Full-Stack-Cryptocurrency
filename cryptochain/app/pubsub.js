@@ -28,20 +28,20 @@ class PubSub {
           channel: CHANNELS.BLOCKCHAIN,
           message: JSON.stringify(this.blockchain.chain)
         });
-      }
+      };
     
     broadcastTransaction(transaction) {
         this.publish({
           channel: CHANNELS.TRANSACTION,
           message: JSON.stringify(transaction)
         });
-    }
+    };
 
     subscribeToChannels() {
         this.pubnub.subscribe({
           channels: [Object.values(CHANNELS)]
         });
-      }
+      };
 
     listener() {
     return {
@@ -66,7 +66,7 @@ class PubSub {
             break;
           default:
             return;
-        }
+        };
       }
     }
   }

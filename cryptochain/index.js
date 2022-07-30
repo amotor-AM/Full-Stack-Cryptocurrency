@@ -1,6 +1,8 @@
 const bodyParser = require("body-parser"); // Parses mined block data to JSON
 const express = require("express");
 const request = require("request");
+const path = require("path");
+const helmet = require("helmet");
 const Blockchain = require("./blockchain");
 const PubSub = require("./app/pubsub");
 const TransactionPool = require("./wallet/transaction-pool");
@@ -8,6 +10,7 @@ const Wallet = require("./wallet");
 const TransactionMiner = require("./app/transaction-miner");
 
 const app = express();
+app.use(helmet());
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
@@ -18,7 +21,8 @@ const DEFAULT_PORT = 3000;
 
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
-app.use(bodyParser.json());
+express.json();
+ap.use(express.static(path.join(__dirname, "client/dist")))
 
 app.get("/api/blocks", (req, res) => {
     res.json(blockchain.chain);
@@ -68,11 +72,15 @@ app.get("/api/mine-transactions", (req, res) => {
     res.redirect("/api/blocks")
 });
 
-app.get("/api/wallet-info", (req, res) => {
+app.get("/api/wallet-info", (req, res) => {S
     res.json({
         address: wallet.publicKey,
         balance: Wallet.calculateBalance({chain: blockchain.chain, address: wallet.publicKey})
     })
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./client/dist/index.html"))
 });
 
 // Broadcasts blocks to network 

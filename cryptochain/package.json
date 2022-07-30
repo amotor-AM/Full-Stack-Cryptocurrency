@@ -6,11 +6,10 @@
   "scripts": {
     "test": "jest --watchAll --verbose false",
     "start": "npm run build-client && node index.js",
-    "dev": "npm run dev-client & nodemon index.js",
+    "dev": "npm run dev-client & npm run && nodemon index.js",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
-    "build-client": "npm run clean && parcel build client/src/index.html --out-dir client/dist",
-    "dev-client": "npm run clean && parcel client/src/index.html --out-dir client/dist",
-    "clean": "rm -rf .cache client/dist"
+    "build-client": "parcel build client/src/index.html --out-dir client/dist",
+    "dev-client": "parcel client/src/index.html --out-dir client/dist"
   },
   "jest": {
     "testEnvironment": "node"
@@ -19,17 +18,26 @@
   "author": "Alex Motor",
   "license": "Not for distribution or reuse",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.19.0",
     "elliptic": "^6.5.3",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "hex-to-binary": "^1.0.1",
+    "parcel-bundler": "^1.10.3",
     "pubnub": "^4.29.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "request": "^2.88.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "jest": "^23.6.0",
+    "jest": "^27.0.4",
     "nodemon": "^2.0.7"
   }
 }
