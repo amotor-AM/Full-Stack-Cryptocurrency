@@ -1,23 +1,33 @@
-import { json } from 'body-parser';
-import React, {useState, useEffect} from 'react'
+import React, {Component, useState, useEffect} from 'react'
+import Blocks from "./Blocks"
+import logo from "../assets/logo.png"
 
-function App() {
-    const [addressInfo, setAddressInfo] = useState({walletInfo: {address: "fake-address", balance: 100}});
+class App extends Component {
+    state = {walletInfo : {}}
 
-    useEffect(() => {
+    componentDidMount() {
         fetch("http://localhost:3000/api/wallet-info")
-        .then(res => res.json())
-        .then(json => setAddressInfo(json))
-        .catch(err => console.log(err.message))
-    }, [])
+        .then((response) =>  response.json())
+        .then(json => this.setState({walletInfo: json}))
+    }
 
+  render() {
+    const {address, balance} = this.state.walletInfo
     return (
-        <div>
-          Welcome to the blockchain...
-          Address: {addressInfo.walletInfo.address} 
-          balace: {addressInfo.walletInfo.balance} 
+        <div className="App">
+            <img className="logo" src={logo}></img>
+            <br/>
+            <div>Welcome to Blockchain Learning Academy</div>
+            <br/>
+            <div className="walletInfo">
+                <div>Address : {address}</div>
+                <div>Balance: {balance}</div>
+            </div>
+            <br />
+            <Blocks />
         </div>
     )
+  }
 }
 
 export default App
