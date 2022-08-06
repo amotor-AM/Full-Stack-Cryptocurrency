@@ -33,4 +33,13 @@ body {
     padding: 5%
 }
 
+a, a:hover {
+    color: yellow;
+    text-decoration: underline
+}
+
+.ConductTransaction, .Transaction-Pool {
+    margin: 10%;
+}
+
 /*# sourceMappingURL=/src.e31bb0bc.css.map */
