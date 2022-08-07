@@ -8,6 +8,8 @@ const TransactionPool = require("./wallet/transaction-pool");
 const Wallet = require("./wallet");
 const TransactionMiner = require("./app/transaction-miner");
 
+const isDevelopment = process.env.ENV === "development"
+
 const app = express();
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
@@ -102,33 +104,36 @@ const syncWithRootChange = () => {
     })
 };
 
-// seeding data
-const newWallet = new Wallet()
-const secondWallet = new Wallet()
+if(isDevelopment) {
+    // seeding data
+    const newWallet = new Wallet()
+    const secondWallet = new Wallet()
 
-const generateWalletTransaction = ({wallet, recipient, amount}) => {
-    const transaction = wallet.createTransaction({recipient, amount, chain: blockchain.chain})
-    transactionPool.setTransaction(transaction)
-}
-
-const walletAction = () => generateWalletTransaction({wallet, recipient: newWallet.publicKey, amount: 1})
-const firstWalletAction = () => generateWalletTransaction({wallet: newWallet, recipient: secondWallet.publicKey, amount: 2})
-const secondWalletAction = () => generateWalletTransaction({wallet: secondWallet, recipient: wallet.publicKey, amount: 3})
-
-for(let i = 0; i < 10; i++) {
-    if(i%3 === 0) {
-        walletAction()
-        secondWalletAction()
-    } else if(i%3 === 1) {
-        walletAction()
-        secondWalletAction()
-    } else {
-        firstWalletAction()
-        secondWalletAction()
+    const generateWalletTransaction = ({wallet, recipient, amount}) => {
+        const transaction = wallet.createTransaction({recipient, amount, chain: blockchain.chain})
+        transactionPool.setTransaction(transaction)
     }
 
-    transactionMiner.mineTransactions()
+    const walletAction = () => generateWalletTransaction({wallet, recipient: newWallet.publicKey, amount: 1})
+    const firstWalletAction = () => generateWalletTransaction({wallet: newWallet, recipient: secondWallet.publicKey, amount: 2})
+    const secondWalletAction = () => generateWalletTransaction({wallet: secondWallet, recipient: wallet.publicKey, amount: 3})
+
+    for(let i = 0; i < 10; i++) {
+        if(i%3 === 0) {
+            walletAction()
+            secondWalletAction()
+        } else if(i%3 === 1) {
+            walletAction()
+            secondWalletAction()
+        } else {
+            firstWalletAction()
+            secondWalletAction()
+        }
+
+        transactionMiner.mineTransactions()
+    }
 }
+
 
 let PEER_PORT;
 
@@ -136,7 +141,7 @@ if(process.env.GENERATE_PEER_PORT === 'true') {
     PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
 };
 
-const PORT = PEER_PORT || DEFAULT_PORT;
+const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT;
 
 app.listen(PORT, () => {
     console.log(`server is listening at localhost:${PORT}`);

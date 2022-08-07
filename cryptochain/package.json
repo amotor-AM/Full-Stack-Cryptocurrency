@@ -6,9 +6,9 @@
   "scripts": {
     "test": "jest --watchAll --verbose false",
     "start": "npm run build-client && node index.js",
-    "dev": "concurrently \"npm run dev-client\" \"nodemon index.js\"",
+    "dev": "cross-env ENV='development' && concurrently \"npm run dev-client\" \"nodemon index.js\"",
     "start-redis": "redis-server --daemonize yes",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='development' nodemon index.js",
     "build-client": "parcel build client/src/index.html --out-dir client/dist",
     "dev-client": "parcel client/src/index.html --out-dir client/dist"
   },
@@ -19,8 +19,11 @@
   "author": "Alex Motor",
   "license": "Not for distribution or reuse",
   "dependencies": {
+    "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.19.0",
     "concurrently": "^7.3.0",
     "elliptic": "^6.5.3",
