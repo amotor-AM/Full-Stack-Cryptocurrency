@@ -19,6 +19,7 @@
   "author": "Alex Motor",
   "license": "Not for distribution or reuse",
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -29,15 +30,16 @@
     "elliptic": "^6.5.3",
     "express": "^4.17.1",
     "hex-to-binary": "^1.0.1",
+    "history": "^4.7.2",
     "parcel-bundler": "^1.10.3",
     "pubnub": "^4.29.11",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
-    "request": "^2.88.2",
-    "uuid": "^3.3.2",
+    "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^4.3.1",
-    "history" : "^4.7.2"
+    "request": "^2.88.2",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

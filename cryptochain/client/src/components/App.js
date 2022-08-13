@@ -1,6 +1,7 @@
 import React, {Component, useState, useEffect} from 'react'
 import {Link} from "react-router-dom"
 import logo from "../assets/logo.png"
+import HeaderComponent from "./header"
 
 class App extends Component {
     state = {walletInfo : {}}
@@ -15,7 +16,7 @@ class App extends Component {
     const {address, balance} = this.state.walletInfo
     return (
         <div className="App">
-            <img className="logo" src={logo}></img>
+            <HeaderComponent/>
             <br/>
             <div>Welcome to Blockchain Learning Academy</div>
             <br/>
